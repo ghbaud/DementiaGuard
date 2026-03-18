@@ -18,6 +18,8 @@ No login, no editing, no configuration. Visit and use.
 - Not a template or customizable framework -- content is curated and fixed
 - Not a community or forum -- no user accounts, no comments, no user-generated content
 - Not medical or legal advice -- the site provides informational guidance with appropriate disclaimers
+- No search functionality -- the site is small enough to navigate directly
+- No print stylesheet in the initial build (future consideration)
 
 ## Audience
 
@@ -49,6 +51,17 @@ The site should feel like a trusted health resource, not a tech site. Gentle, no
 - **Typography:** Serif headings (Georgia or similar), readable sans-serif body text. Base font size 16-18px.
 - **Spacing:** Generous padding and line-height for readability. Nothing cramped.
 - **Shape:** Rounded corners (8px border-radius), no sharp edges.
+- **Links:** Always underlined for discoverability (audience skews older). Sage green for unvisited, slightly darker for visited, subtle highlight on hover.
+
+## Accessibility
+
+The audience includes elderly caregivers who may have their own visual or motor impairments. Target **WCAG 2.1 AA** compliance.
+
+- **Color contrast:** Verify all text/background combinations meet 4.5:1 ratio. The muted brown (`#6B6155`) on warm cream (`#FAFAF5`) is close to the threshold -- test and adjust if needed.
+- **Keyboard navigation:** All expandable sections must be operable via keyboard (Enter/Space to toggle). Visible focus indicators on all interactive elements.
+- **ARIA attributes:** Expandable sections use `role="button"`, `aria-expanded`, and `aria-controls`. Hamburger menu uses `aria-expanded` and `aria-label`.
+- **Semantic HTML:** Use `<main>`, `<nav>`, `<header>`, `<footer>` landmark roles. Include a "Skip to content" link as the first focusable element.
+- **Images:** Alt text on all images and icons. Decorative images use `alt=""`.
 
 ## Voice & Tone
 
@@ -76,7 +89,7 @@ Hub-first layout. Visitors are oriented before being directed.
 - **Header:** Site name and tagline ("Protecting vulnerable loved ones from online exploitation")
 - **Empathetic intro paragraph:** "If someone you love has dementia and is being targeted by online scams, you're not alone..."
 - **"Before You Begin" note:** Sets the tone -- every family is different, these are suggestions not mandates, small steps count
-- **"A Good Place to Start" card:** Highlighted with a warm border. Contains soft suggestions (not a numbered checklist): limiting device capabilities, adding scam detection, talking with the bank, reducing social media exposure, having key numbers ready
+- **"A Good Place to Start" card:** Highlighted with a warm border. Contains soft suggestions (not a numbered checklist), each linking to the relevant detail page: limiting device capabilities (-> Devices), adding scam detection (-> Scam Tools), talking with the bank (-> Financial), reducing social media exposure (-> Devices), having key numbers ready (-> Emergency Playbook)
 - **Six section cards** in a 2-column grid, each with title and brief description:
   - Lock Down Devices
   - Scam Detection Tools
@@ -111,6 +124,7 @@ Reviews of software that can detect and block scam attempts.
   - **ElderShield** -- AI-powered online scam protection
   - **ZoraSafe** -- AI scam shield with senior-specific features
   - **GPTZero's guide** -- detecting AI-generated scam content
+- Each tool card includes a **"Last reviewed: [date]"** note so readers know how current the information is
 - **Comparison table** summarizing platforms, cost, and key features
 - **"Why This Matters"** section: how AI-powered scams work, why they're convincing, the scale of the problem
 - **Related links:** Lock Down Devices, Financial Protection
@@ -170,6 +184,7 @@ Interactive decision trees for common crisis scenarios.
 Context and background for those who want to understand why this happens.
 
 - **Intro:** Understanding the landscape can help you make better decisions about protection.
+- **No "Things That Often Help" box** -- this page is informational context, not actionable steps. It intentionally deviates from the standard content pattern.
 - **Expandable sections:**
   - **Why people with dementia are targeted:** Impaired judgment, trust, impulsivity, isolation, inability to recognize manipulation patterns
   - **How modern scams work:** AI-generated voices, deepfakes, romance scams, social media exploitation, fake celebrity accounts, urgency tactics
@@ -184,7 +199,7 @@ Context and background for those who want to understand why this happens.
 ### Header
 - Site name ("DementiaGuard") with tagline
 - Navigation links to all seven pages
-- Responsive: collapses to hamburger menu on mobile
+- Responsive: collapses to hamburger menu on mobile (breakpoint: 768px, overlay on content, auto-closes on link click)
 
 ### Footer
 - **Helpline numbers:**
@@ -201,6 +216,7 @@ Context and background for those who want to understand why this happens.
 - Click to expand/collapse
 - Visual indicator (chevron or similar) showing state
 - Smooth animation
+- **Default state:** All sections start collapsed on page load. URL hash fragments (e.g., `devices.html#ios`) can deep-link to and auto-expand a specific section.
 - Expanded sections include sensitivity notes where appropriate
 
 ### Cross-Reference Links
@@ -222,11 +238,20 @@ DementiaGuard/
     style.css         -- shared styles, color palette, typography, responsive
   js/
     main.js           -- expand/collapse, mobile nav, smooth scrolling
+  404.html            -- friendly "page not found" in site style, links back to home
   images/             -- any icons or illustrations (keep minimal)
-  docs/
-    superpowers/
-      specs/          -- this spec
 ```
+
+Note: `docs/` (specs, plans) lives in the repo but is excluded from deployment. Only `*.html`, `css/`, `js/`, and `images/` are deployed to GitHub Pages.
+
+### Social Sharing Metadata
+
+Each page includes Open Graph tags for link previews when shared via messaging apps:
+- `og:title` -- page title
+- `og:description` -- page intro text
+- `og:image` -- a shared site image (warm, simple, branded)
+- `og:type` -- "website"
+- Plus a favicon consistent with the warm visual style.
 
 ## Content Sources
 
