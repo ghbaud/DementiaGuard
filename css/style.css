@@ -172,17 +172,6 @@ header {
   color: var(--sage-dark);
 }
 
-.tagline {
-  color: var(--warm-tan);
-  font-size: 0.8rem;
-  margin-left: 0.75rem;
-}
-
-.header-left {
-  display: flex;
-  align-items: baseline;
-  gap: 0.75rem;
-}
 
 nav ul {
   display: flex;
@@ -658,10 +647,6 @@ footer {
 
 /* === Responsive === */
 @media (max-width: 768px) {
-  .tagline {
-    display: none;
-  }
-
   .hamburger {
     display: flex;
   }
