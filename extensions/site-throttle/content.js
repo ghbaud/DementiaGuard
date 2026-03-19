@@ -78,10 +78,16 @@
     }, { passive: false });
 
     // --- 3. Click delay ---
-    // Intercept clicks and delay them
+    // Intercept clicks and delay them, but let media clicks through
+    // immediately so autoplay suppression can handle them properly
     document.addEventListener('click', (e) => {
       // Don't delay if it's our replayed click
       if (e.isTrusted && !e._throttleReplayed) {
+        // Let clicks on or near video/audio elements pass through immediately
+        // so the autoplay suppression can recognize them as user gestures
+        const nearMedia = e.target.closest('video, audio, [class*="video"], [class*="player"], [class*="Video"], [class*="Player"]');
+        if (nearMedia) return; // Don't intercept -- let it through
+
         e.preventDefault();
         e.stopPropagation();
 
