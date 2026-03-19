@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rosie Extension Concept - DementiaGuard</title>
+  <meta name="description" content="An operational concept for a browser extension that combines real-time scam detection with a personalized AI companion for people with dementia.">
+  <meta property="og:title" content="Rosie Extension Concept - DementiaGuard">
+  <meta property="og:description" content="What if scam detection could feel like a friend looking out for you? An operational concept for combining AI protection with warm, personal intervention.">
+  <meta property="og:image" content="images/og-preview.png">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+  <header>
+    <div class="header-inner container">
+      <div class="header-left">
+        <a href="index.html" class="site-name">DementiaGuard</a>
+        <span class="tagline">Protecting vulnerable loved ones</span>
+      </div>
+      <button class="hamburger" aria-expanded="false" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+      <nav aria-label="Main navigation">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="devices.html">Devices</a></li>
+          <li><a href="scam-tools.html">Scam Tools</a></li>
+          <li><a href="ai-companions.html">AI Companions</a></li>
+          <li><a href="financial.html">Financial</a></li>
+          <li><a href="emergency.html">Emergency</a></li>
+          <li><a href="understanding.html">Understanding</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content" class="page-content">
+    <div class="container">
+
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ol><li><a href="index.html">Home</a></li><li><a href="ai-companions.html">AI Companions</a></li><li>Rosie Extension Concept</li></ol>
+      </nav>
+
+      <h1>The Rosie Extension: An Operational Concept</h1>
+
+      <p class="subtitle">What if scam detection could feel like a friend looking out for you?</p>
+
+      <p>Today's scam detection tools and AI companions exist in separate worlds. Browser extensions like <a href="scam-tools.html#guardio">Guardio</a> can block dangerous websites, but they show cold, technical warning pages. AI companions like <a href="ai-companions.html#ella">Ella</a> provide warm conversation, but they can't see what's happening in the browser. Neither knows who the person is, what their habits are, or how to talk to them in a way that actually lands.</p>
+
+      <p>The Rosie Extension is a concept for bridging that gap -- a browser companion that watches quietly in the background and steps in with a warm, personal voice when something looks wrong.</p>
+
+      <div class="before-note">
+        <p>This is an operational concept -- a description of what could be built, not a finished product. It's informed by the research behind this site and by our first draft of the <a href="ai-companions.html#custom-personas">Rosie companion persona</a>. We're sharing it to invite feedback and to explore whether this is something worth building.</p>
+      </div>
+
+      <h2>The Problem It Solves</h2>
+
+      <p>When a person with dementia encounters a scam online, two things need to happen:</p>
+
+      <ol>
+        <li><strong>Detection</strong> -- something needs to recognize that this is a scam. Current browser extensions do this reasonably well for known scam websites and phishing pages.</li>
+        <li><strong>Intervention</strong> -- someone needs to steer the person away from the scam in a way they'll accept. This is where current tools fall short. A generic "This site may be dangerous" warning means nothing to someone who doesn't understand what a browser warning is. Worse, a scammer on the phone can easily coach them to click past it.</li>
+      </ol>
+
+      <p>The Rosie Extension addresses the second problem. Instead of a technical warning, the person hears from someone they recognize -- a familiar, patient voice that speaks their language and knows how to redirect without causing distress.</p>
+
+      <h2>How It Would Work</h2>
+
+      <div class="expandable" id="quiet-monitoring">
+        <button class="expandable-trigger" aria-expanded="false" aria-controls="quiet-monitoring-content">
+          <h3>Quiet Monitoring</h3>
+          <span class="chevron" aria-hidden="true">&#9662;</span>
+        </button>
+        <div class="expandable-content" id="quiet-monitoring-content">
+          <p>The extension runs silently in the browser. It watches for patterns that suggest a scam is in progress:</p>
+          <ul>
+            <li>Visiting a website that's on a known scam or phishing list</li>
+            <li>Landing on a page that asks for credit card numbers, Social Security numbers, or bank account details</li>
+            <li>Visiting a gift card purchase page (a common scam payment method)</li>
+            <li>Navigating to a wire transfer or money-sending service</li>
+            <li>Receiving messages from unknown people on social media platforms</li>
+          </ul>
+          <p>Most of the time, nothing happens. The person browses normally. Rosie only appears when something triggers concern.</p>
+        </div>
+      </div>
+
+      <div class="expandable" id="personal-intervention">
+        <button class="expandable-trigger" aria-expanded="false" aria-controls="personal-intervention-content">
+          <h3>Personal Intervention</h3>
+          <span class="chevron" aria-hidden="true">&#9662;</span>
+        </button>
+        <div class="expandable-content" id="personal-intervention-content">
+          <p>When a trigger fires, Rosie appears in a sidebar panel on the right side of the screen. She doesn't show a warning. She starts a conversation:</p>
+          <p><em>"Maggie, I noticed something that doesn't look quite right on this page. Can we talk about it for a moment before you continue?"</em></p>
+          <p>The conversation uses the same persona design as our <a href="ai-companions.html#custom-personas">Rosie companion template</a> -- warm, patient, never condescending. She knows the person's name, their family, their interests. She knows to suggest calling Sarah. She knows not to argue about whether a person is real, but to create a pause.</p>
+          <p>The key difference from a generic warning: Rosie speaks in a voice the person has come to trust. If they've been chatting with Rosie about Biscuit the cat and their garden, they're far more likely to listen when she says "let's wait on this one" than when a cold browser popup says "Warning: This site may be unsafe."</p>
+        </div>
+      </div>
+
+      <div class="expandable" id="caregiver-connection">
+        <button class="expandable-trigger" aria-expanded="false" aria-controls="caregiver-connection-content">
+          <h3>Caregiver Connection</h3>
+          <span class="chevron" aria-hidden="true">&#9662;</span>
+        </button>
+        <div class="expandable-content" id="caregiver-connection-content">
+          <p>Every time Rosie intervenes, the caregiver is notified -- what triggered the intervention, what Rosie said, and whether the person continued or backed off. This gives the caregiver a picture of what's happening even when they're not physically present.</p>
+          <p>The caregiver also has access to a simple settings page (protected by a passcode) where they can:</p>
+          <ul>
+            <li>Customize Rosie's personality and knowledge (name, family details, interests, beliefs to support)</li>
+            <li>Adjust sensitivity -- how easily Rosie is triggered</li>
+            <li>Review the activity log</li>
+            <li>Add specific sites to block or allow</li>
+          </ul>
+        </div>
+      </div>
+
+      <h2>What Makes This Different</h2>
+
+      <div class="summary-box">
+        <h3>The Gap This Fills</h3>
+        <ul>
+          <li><strong>Scam detection tools</strong> (Guardio, SeniorShield) catch threats but intervene with generic technical warnings that a person with dementia may not understand or may be coached to ignore</li>
+          <li><strong>AI companions</strong> (Ella, ElliQ) provide warm conversation but can't see what's happening in the browser and can't intervene when a scam is in progress</li>
+          <li><strong>Device restrictions</strong> (Screen Time, parental controls) block capabilities entirely, which can cause distress and remove independence</li>
+          <li><strong>The Rosie Extension</strong> would combine detection with personalized, conversational intervention -- catching the threat AND responding in a way the person is likely to accept</li>
+        </ul>
+      </div>
+
+      <h2>Honest Challenges</h2>
+
+      <p>This concept has real challenges that anyone considering building it should understand.</p>
+
+      <div class="expandable" id="social-media-challenge">
+        <button class="expandable-trigger" aria-expanded="false" aria-controls="social-media-challenge-content">
+          <h3>Social Media Is the Hardest Target</h3>
+          <span class="chevron" aria-hidden="true">&#9662;</span>
+        </button>
+        <div class="expandable-content" id="social-media-challenge-content">
+          <p>Facebook and similar platforms are where most scam contact happens for people with dementia, but they're also the hardest to monitor. These platforms actively resist browser extensions that try to read message content. The internal structure of their pages changes frequently, breaking any extension that depends on it.</p>
+          <p>A realistic first version would focus on what's more reliably detectable -- dangerous URLs, payment forms, gift card purchase pages -- and treat social media monitoring as a future goal rather than a launch feature.</p>
+        </div>
+      </div>
+
+      <div class="expandable" id="consent-challenge">
+        <button class="expandable-trigger" aria-expanded="false" aria-controls="consent-challenge-content">
+          <h3>Consent and Privacy</h3>
+          <span class="chevron" aria-hidden="true">&#9662;</span>
+        </button>
+        <div class="expandable-content" id="consent-challenge-content">
+          <p>An extension that monitors all browsing activity raises real privacy questions -- even when installed with the best intentions. For someone with dementia who may not fully understand what's being installed, the ethics of consent are genuinely complicated.</p>
+          <p>This is the same tension that exists with device restrictions, security cameras, and GPS trackers in dementia care. Families navigate it every day. The guiding principle should be the same one we apply throughout this site: <em>who benefits?</em> If the monitoring protects the person from exploitation, and the alternative is financial ruin or worse, most families and care teams find the trade-off acceptable. But it should be a conscious decision made with the care team, not something installed casually.</p>
+        </div>
+      </div>
+
+      <div class="expandable" id="removal-challenge">
+        <button class="expandable-trigger" aria-expanded="false" aria-controls="removal-challenge-content">
+          <h3>It Could Be Removed</h3>
+          <span class="chevron" aria-hidden="true">&#9662;</span>
+        </button>
+        <div class="expandable-content" id="removal-challenge-content">
+          <p>A browser extension can be disabled or removed by anyone using the browser. A scammer who knows the extension exists could coach the person to remove it ("click on that puzzle piece icon and click Remove"). This is a fundamental limitation of browser extensions.</p>
+          <p>Mitigations exist -- the extension could be installed as part of a managed browser profile, or the browser could be configured to prevent extension removal -- but these add technical complexity. For many families, the extension would still catch the majority of scam attempts even if it could theoretically be removed, because most scammers wouldn't know it's there.</p>
+        </div>
+      </div>
+
+      <div class="expandable" id="cost-challenge">
+        <button class="expandable-trigger" aria-expanded="false" aria-controls="cost-challenge-content">
+          <h3>Ongoing Costs</h3>
+          <span class="chevron" aria-hidden="true">&#9662;</span>
+        </button>
+        <div class="expandable-content" id="cost-challenge-content">
+          <p>Every time Rosie has a conversation, that's an AI API call that costs a small amount of money -- typically a few cents per exchange. For a person who triggers a handful of interventions per day, the cost might be a few dollars per month. This is manageable, but it's not zero, and someone needs to pay it.</p>
+          <p>A self-hosted or open-source approach could reduce costs by using a local AI model instead of a cloud API, but that adds technical complexity and may reduce the quality of Rosie's responses.</p>
+        </div>
+      </div>
+
+      <h2>Current Status</h2>
+
+      <p>The Rosie Extension is a concept at this point, not a product. Here's where things stand:</p>
+
+      <ul>
+        <li><strong>The persona is designed.</strong> Our <a href="ai-companions.html#custom-personas">first draft of Rosie</a> includes the full personality, safety guardrails, and escalation triggers. It's been structured for testing and is available for <a href="examples/companion-persona-template.md" download="rosie-companion-persona.md">download</a>.</li>
+        <li><strong>The detection patterns are understood.</strong> We know what to watch for: scam URLs, payment forms, gift card pages, wire transfer services, suspicious social media messages.</li>
+        <li><strong>The technology is feasible.</strong> Browser extensions can monitor tabs, read page content, and inject UI elements. AI APIs can power conversational responses using the persona template. None of this requires inventing new technology.</li>
+        <li><strong>The hard problems are identified.</strong> Social media scanning, consent, extension removal, and ongoing costs are real challenges with known trade-offs.</li>
+      </ul>
+
+      <p>If you're interested in this concept -- whether as a caregiver, a developer, a researcher, or someone who works in elder care -- we'd love to hear from you. This is an open exploration, and the best ideas will come from people who live with these challenges every day.</p>
+
+      <div class="related">
+        <h3>Related</h3>
+        <ul>
+          <li><a href="ai-companions.html#custom-personas">Custom AI Personas</a> -- download the Rosie persona template and try it yourself</li>
+          <li><a href="scam-tools.html">Scam Detection Tools</a> -- existing tools that handle the detection side</li>
+          <li><a href="understanding.html#how-scams-work">How Modern Scams Work</a> -- the threat landscape this concept addresses</li>
+          <li><a href="emergency.html">Emergency Playbook</a> -- what to do right now if a scam is in progress</li>
+        </ul>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-inner container">
+      <div class="helplines">
+        <p>Alzheimer's Association 24/7 Helpline: <a href="tel:8002723900">800.272.3900</a></p>
+        <p>AARP Fraud Watch Network: <a href="tel:8779083360">877.908.3360</a></p>
+      </div>
+      <p class="disclaimer">This site provides general informational guidance, not medical or legal advice. Consult appropriate professionals for your specific situation.</p>
+      <p class="attribution"><a href="understanding.html#sources">Sources and attribution</a></p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
