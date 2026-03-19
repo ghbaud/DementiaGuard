@@ -12,6 +12,7 @@
  * 3. Click delay -- clicks take seconds to register
  * 4. Input delay -- typing has a noticeable lag per character
  * 5. Image degradation -- images load blurry and slowly sharpen
+ * 6. Autoplay suppression -- videos and audio require a click to play
  */
 
 (function () {
@@ -165,21 +166,104 @@
       degradeImages();
     }
 
-    // Watch for dynamically added images (social media sites load content continuously)
-    const observer = new MutationObserver((mutations) => {
-      let hasNewImages = false;
-      for (const mutation of mutations) {
-        for (const node of mutation.addedNodes) {
-          if (node.nodeName === 'IMG' || (node.querySelectorAll && node.querySelectorAll('img').length > 0)) {
-            hasNewImages = true;
-            break;
+    // --- 6. Autoplay suppression ---
+    // Pause all videos and audio, require a click to play.
+    // This kills the endless scroll of autoplaying content that keeps
+    // people glued to social media.
+    function suppressAutoplay() {
+      const media = document.querySelectorAll('video:not([data-throttle-media]), audio:not([data-throttle-media])');
+      media.forEach(el => {
+        el.setAttribute('data-throttle-media', 'true');
+
+        // Remove autoplay attribute
+        el.removeAttribute('autoplay');
+
+        // Pause if playing
+        if (!el.paused) {
+          el.pause();
+        }
+
+        // Override play() to require user gesture
+        const originalPlay = el.play.bind(el);
+        let userClicked = false;
+
+        el.addEventListener('click', () => {
+          userClicked = true;
+          originalPlay().catch(() => {});
+        }, { once: true });
+
+        el.play = function () {
+          if (userClicked) {
+            return originalPlay();
+          }
+          // Silently block autoplay -- return a resolved promise to avoid console errors
+          el.pause();
+          return Promise.resolve();
+        };
+
+        // Show a play overlay so the person knows they can click to play
+        if (el.tagName === 'VIDEO') {
+          const wrapper = el.parentElement;
+          if (wrapper && !wrapper.querySelector('.throttle-play-overlay')) {
+            const overlay = document.createElement('div');
+            overlay.className = 'throttle-play-overlay';
+            overlay.textContent = 'Click to play';
+            overlay.style.cssText = `
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              background: rgba(0, 0, 0, 0.6);
+              color: white;
+              padding: 8px 16px;
+              border-radius: 6px;
+              font-size: 14px;
+              pointer-events: none;
+              z-index: 10;
+            `;
+            // Only add if parent is positioned
+            const parentPos = window.getComputedStyle(wrapper).position;
+            if (parentPos === 'static') {
+              wrapper.style.position = 'relative';
+            }
+            wrapper.appendChild(overlay);
+
+            // Remove overlay when video plays
+            el.addEventListener('play', () => {
+              overlay.remove();
+            }, { once: true });
           }
         }
-        if (hasNewImages) break;
+      });
+    }
+
+    // Process media on load
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', suppressAutoplay);
+    } else {
+      suppressAutoplay();
+    }
+
+    // Watch for dynamically added media and images
+    const observer = new MutationObserver((mutations) => {
+      let hasNewImages = false;
+      let hasNewMedia = false;
+      for (const mutation of mutations) {
+        for (const node of mutation.addedNodes) {
+          if (node.nodeType !== 1) continue; // Skip text nodes
+          if (node.nodeName === 'IMG' || (node.querySelectorAll && node.querySelectorAll('img').length > 0)) {
+            hasNewImages = true;
+          }
+          if (node.nodeName === 'VIDEO' || node.nodeName === 'AUDIO' ||
+              (node.querySelectorAll && node.querySelectorAll('video, audio').length > 0)) {
+            hasNewMedia = true;
+          }
+          if (hasNewImages && hasNewMedia) break;
+        }
+        if (hasNewImages && hasNewMedia) break;
       }
-      if (hasNewImages) {
-        degradeImages();
-      }
+      if (hasNewImages) degradeImages();
+      if (hasNewMedia) suppressAutoplay();
     });
 
     observer.observe(document.documentElement, {
