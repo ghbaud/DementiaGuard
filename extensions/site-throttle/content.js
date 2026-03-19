@@ -167,81 +167,132 @@
     }
 
     // --- 6. Autoplay suppression ---
-    // Pause all videos and audio, require a click to play.
-    // This kills the endless scroll of autoplaying content that keeps
-    // people glued to social media.
-    function suppressAutoplay() {
-      const media = document.querySelectorAll('video:not([data-throttle-media]), audio:not([data-throttle-media])');
+    // Kill all audio and video autoplay. TikTok and similar sites often
+    // use separate audio handling or call play() from JS rather than
+    // using the autoplay attribute, so we need multiple strategies.
+
+    // Strategy A: Intercept HTMLMediaElement.prototype.play at the prototype
+    // level BEFORE any site JS runs. This catches all play() calls on any
+    // video or audio element, regardless of how the site triggers them.
+    const originalPlay = HTMLMediaElement.prototype.play;
+    const clickedElements = new WeakSet();
+
+    HTMLMediaElement.prototype.play = function () {
+      if (clickedElements.has(this)) {
+        return originalPlay.call(this);
+      }
+      // Mute and pause -- silently block
+      this.muted = true;
+      this.pause();
+      return Promise.resolve();
+    };
+
+    // Strategy B: Mute all media elements and force-pause them on a timer.
+    // Sites like TikTok may bypass play() or use Web Audio API.
+    function muteAndPauseAll() {
+      const media = document.querySelectorAll('video, audio');
       media.forEach(el => {
-        el.setAttribute('data-throttle-media', 'true');
-
-        // Remove autoplay attribute
-        el.removeAttribute('autoplay');
-
-        // Pause if playing
-        if (!el.paused) {
-          el.pause();
-        }
-
-        // Override play() to require user gesture
-        const originalPlay = el.play.bind(el);
-        let userClicked = false;
-
-        el.addEventListener('click', () => {
-          userClicked = true;
-          originalPlay().catch(() => {});
-        }, { once: true });
-
-        el.play = function () {
-          if (userClicked) {
-            return originalPlay();
+        if (!clickedElements.has(el)) {
+          el.muted = true;
+          if (!el.paused) {
+            el.pause();
           }
-          // Silently block autoplay -- return a resolved promise to avoid console errors
-          el.pause();
-          return Promise.resolve();
-        };
-
-        // Show a play overlay so the person knows they can click to play
-        if (el.tagName === 'VIDEO') {
-          const wrapper = el.parentElement;
-          if (wrapper && !wrapper.querySelector('.throttle-play-overlay')) {
-            const overlay = document.createElement('div');
-            overlay.className = 'throttle-play-overlay';
-            overlay.textContent = 'Click to play';
-            overlay.style.cssText = `
-              position: absolute;
-              top: 50%;
-              left: 50%;
-              transform: translate(-50%, -50%);
-              background: rgba(0, 0, 0, 0.6);
-              color: white;
-              padding: 8px 16px;
-              border-radius: 6px;
-              font-size: 14px;
-              pointer-events: none;
-              z-index: 10;
-            `;
-            // Only add if parent is positioned
-            const parentPos = window.getComputedStyle(wrapper).position;
-            if (parentPos === 'static') {
-              wrapper.style.position = 'relative';
-            }
-            wrapper.appendChild(overlay);
-
-            // Remove overlay when video plays
-            el.addEventListener('play', () => {
-              overlay.remove();
-            }, { once: true });
-          }
+          el.removeAttribute('autoplay');
         }
       });
     }
 
-    // Process media on load
+    // Run mute/pause aggressively -- every 500ms for the first 10 seconds,
+    // then every 2 seconds ongoing. Sites continuously create new players.
+    let muteCount = 0;
+    const muteInterval = setInterval(() => {
+      muteAndPauseAll();
+      muteCount++;
+      if (muteCount > 20) {
+        // Switch to slower polling after initial burst
+        clearInterval(muteInterval);
+        setInterval(muteAndPauseAll, 2000);
+      }
+    }, 500);
+
+    // Strategy C: Listen for 'play' events bubbling up and kill them
+    // unless the element was explicitly clicked
+    document.addEventListener('play', (e) => {
+      if (e.target && (e.target.tagName === 'VIDEO' || e.target.tagName === 'AUDIO')) {
+        if (!clickedElements.has(e.target)) {
+          e.target.muted = true;
+          e.target.pause();
+        }
+      }
+    }, true); // Capture phase
+
+    // Strategy D: Mark elements as user-clicked when actually clicked.
+    // Listen on the whole document since media elements may be inside
+    // wrapper divs that receive the click.
+    document.addEventListener('click', (e) => {
+      // Find any video/audio at or near the click target
+      const media = e.target.closest('video, audio') ||
+                    e.target.querySelector('video, audio');
+      if (media) {
+        clickedElements.add(media);
+        media.muted = false;
+        originalPlay.call(media).catch(() => {});
+      }
+
+      // Also check parent containers (TikTok wraps videos in divs)
+      const parent = e.target.closest('[class*="video"], [class*="player"]');
+      if (parent) {
+        const vid = parent.querySelector('video');
+        if (vid) {
+          clickedElements.add(vid);
+          vid.muted = false;
+          originalPlay.call(vid).catch(() => {});
+        }
+      }
+    }, true);
+
+    // Show play overlays on videos
+    function addPlayOverlays() {
+      const videos = document.querySelectorAll('video:not([data-throttle-overlay])');
+      videos.forEach(vid => {
+        vid.setAttribute('data-throttle-overlay', 'true');
+        const wrapper = vid.parentElement;
+        if (wrapper && !wrapper.querySelector('.throttle-play-overlay')) {
+          const overlay = document.createElement('div');
+          overlay.className = 'throttle-play-overlay';
+          overlay.textContent = 'Click to play';
+          overlay.style.cssText = `
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            pointer-events: none;
+            z-index: 10;
+          `;
+          const parentPos = window.getComputedStyle(wrapper).position;
+          if (parentPos === 'static') {
+            wrapper.style.position = 'relative';
+          }
+          wrapper.appendChild(overlay);
+
+          vid.addEventListener('play', () => {
+            if (clickedElements.has(vid)) {
+              overlay.remove();
+            }
+          });
+        }
+      });
+    }
+
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', suppressAutoplay);
+      document.addEventListener('DOMContentLoaded', addPlayOverlays);
     } else {
-      suppressAutoplay();
+      addPlayOverlays();
     }
 
     // Watch for dynamically added media and images
@@ -263,7 +314,7 @@
         if (hasNewImages && hasNewMedia) break;
       }
       if (hasNewImages) degradeImages();
-      if (hasNewMedia) suppressAutoplay();
+      if (hasNewMedia) addPlayOverlays();
     });
 
     observer.observe(document.documentElement, {
