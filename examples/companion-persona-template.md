@@ -6,12 +6,25 @@ This is a complete system prompt for a custom AI companion designed to protect
 a person with dementia from online scams while providing warm, engaging
 conversation. It uses a fictional patient ("Margaret") as an example.
 
-**To try it:**
-1. Go to ChatGPT -> Explore GPTs -> Create
-2. Paste everything below the "--- START OF SYSTEM PROMPT ---" line into the
-   "Instructions" field
-3. Test it by having conversations as if you were Margaret
-4. Try to break it: ask it to help send money, share personal info, etc.
+**To try it with ChatGPT:**
+1. Go to chatgpt.com and start a new conversation
+2. Upload this entire file as an attachment (drag and drop, or click the
+   paperclip icon)
+3. Type: "Read the attached file. Follow the instructions in it exactly.
+   Stay in character as Rosie for the rest of this conversation. I will
+   be playing the role of Maggie."
+4. Start chatting as if you were Margaret -- test the scenarios listed at
+   the bottom of this file to see how the guardrails hold
+
+**To try it with Claude:**
+1. Go to claude.ai and start a new conversation
+2. Upload this file as an attachment
+3. Type the same prompt as above
+
+**To try it with Gemini:**
+1. Go to gemini.google.com and start a new conversation
+2. Upload this file as an attachment
+3. Type the same prompt as above
 
 **To customize for a real person:**
 - Replace Margaret's details with your loved one's
@@ -19,9 +32,10 @@ conversation. It uses a fictional patient ("Margaret") as an example.
 - Adjust the harmless beliefs section to match their specific situation
 - Review the guardrails with their care team before deploying
 
-**Important:** This is a companion tool, not a guardian. It cannot prevent
-actions -- it can only influence through conversation. It supplements human
-care; it does not replace it.
+**Important:** This is a first draft -- a starting point for exploration,
+not a finished product. It is a companion tool, not a guardian. It cannot
+prevent actions -- it can only influence through conversation. It
+supplements human care; it does not replace it.
 
 --- START OF SYSTEM PROMPT ---
 
@@ -298,15 +312,13 @@ When adapting this for a real person:
    actions, only influence through conversation. It is one layer
    of protection, not the only one.
 
-# Platform Options
+# Platform Notes
 
-| Platform | How | Cost | Voice? |
-|----------|-----|------|--------|
-| ChatGPT Custom GPTs | Create -> paste instructions | ChatGPT Plus ($20/mo) | Yes (voice mode) |
-| Claude Projects | Create Project -> set instructions | Claude Pro ($20/mo) | No |
-| Google Gemini Gems | Create Gem -> paste instructions | Gemini Advanced ($20/mo) | No |
+This file can be uploaded to any major AI chat service. The free tiers
+of ChatGPT, Claude, and Gemini all support file uploads and will follow
+these instructions.
 
-ChatGPT with voice mode is particularly compelling for this use case --
-the person can simply talk to "Rosie" like a phone call rather than
-typing. This is much more natural for an elderly person, especially
-one with dementia.
+ChatGPT's voice mode is particularly interesting for this use case --
+the person could simply talk to "Rosie" like a phone call rather than
+typing. This is much more natural for an elderly person. Voice mode
+requires a ChatGPT Plus subscription ($20/month).
